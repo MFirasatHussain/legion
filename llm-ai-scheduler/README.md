@@ -2,6 +2,16 @@
 
 A local-only demo service that suggests appointment slots using a deterministic scheduler and LLM-powered parsing/explanations.
 
+## Screenshots
+
+**Input form** — Describe availability in free text or paste structured JSON:
+
+![Input form](docs/ui.png)
+
+**Suggested slots** — Top 5 slots with times, provider, and LLM-generated explanations:
+
+![Suggested slots](docs/results.png)
+
 ## Features
 
 - **POST /suggest** — Accepts either:
@@ -81,6 +91,9 @@ curl -X POST http://localhost:8000/suggest \
 
 ```
 llm-ai-scheduler/
+├── docs/
+│   ├── ui.png        # Input form screenshot
+│   └── results.png   # Suggested slots screenshot
 ├── app/
 │   ├── __init__.py
 │   ├── main.py       # FastAPI app, POST /suggest
