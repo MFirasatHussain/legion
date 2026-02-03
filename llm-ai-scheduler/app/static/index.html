@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM AI Scheduler</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>LLM AI Scheduler</h1>
+      <p class="subtitle">Find the best appointment slots for you</p>
+    </header>
+
+    <main>
+      <div class="input-section">
+        <div class="tabs">
+          <button type="button" class="tab active" data-mode="text">Free text</button>
+          <button type="button" class="tab" data-mode="json">Structured JSON</button>
+        </div>
+
+        <div id="text-panel" class="panel active">
+          <label for="availability-text">Describe availability (patient + provider, timezones, preferences)</label>
+          <textarea id="availability-text" rows="6" placeholder="e.g. Dr. Smith available Mon–Fri 9am–5pm Eastern. Patient prefers mornings. Looking between Feb 3–10, 2025. Existing meeting Feb 3 at 10–10:30am. 30-min slots, 10min buffer."></textarea>
+          <button type="button" class="btn-example" id="try-example">Try example</button>
+        </div>
+
+        <div id="json-panel" class="panel">
+          <label for="availability-json">Paste structured availability JSON</label>
+          <textarea id="availability-json" rows="12" placeholder='{"structured_availability": {"provider_id": "...", "timezone": "America/New_York", ...}}'></textarea>
+        </div>
+
+        <button type="button" class="btn-submit" id="submit-btn">
+          <span class="btn-text">Get suggestions</span>
+          <span class="btn-loading">Finding slots…</span>
+        </button>
+      </div>
+
+      <div id="results" class="results hidden">
+        <h2>Suggested slots</h2>
+        <div id="slots-list"></div>
+        <p id="no-slots" class="no-slots hidden">No available slots found for the given constraints.</p>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
