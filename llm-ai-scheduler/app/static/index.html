@@ -21,6 +21,9 @@
         <div class="tabs">
           <button type="button" class="tab active" data-mode="text">Free text</button>
           <button type="button" class="tab" data-mode="json">Structured JSON</button>
+          <button type="button" class="tab" data-mode="ask">Ask (Scheduler)</button>
+          <button type="button" class="tab" data-mode="upload">Upload Patient Docs</button>
+          <button type="button" class="tab" data-mode="ask_patient">Ask (Patient Docs)</button>
         </div>
 
         <div id="text-panel" class="panel active">
@@ -34,6 +37,25 @@
           <textarea id="availability-json" rows="12" placeholder='{"structured_availability": {"provider_id": "...", "timezone": "America/New_York", ...}}'></textarea>
         </div>
 
+        <div id="ask-panel" class="panel">
+          <label for="ask-question">Ask a question about the scheduler (answers from docs)</label>
+          <input type="text" id="ask-question" placeholder="e.g. What timezone formats are supported? Do I need an API key?"></input>
+          <button type="button" class="btn-example" id="try-ask-example">Try example</button>
+        </div>
+
+        <div id="upload-panel" class="panel">
+          <label for="file-upload">Upload patient documents (.txt or .md files)</label>
+          <input type="file" id="file-upload" accept=".txt,.md" multiple>
+          <div id="upload-status" class="upload-status"></div>
+          <button type="button" id="upload-btn">Upload Files</button>
+        </div>
+
+        <div id="ask-patient-panel" class="panel">
+          <label for="ask-patient-question">Ask a question about patient documents</label>
+          <input type="text" id="ask-patient-question" placeholder="e.g. What medications is the patient taking?"></input>
+          <button type="button" class="btn-example" id="try-ask-patient-example">Try example</button>
+        </div>
+
         <button type="button" class="btn-submit" id="submit-btn">
           <span class="btn-text">Get suggestions</span>
           <span class="btn-loading">Finding slots…</span>
@@ -44,6 +66,12 @@
         <h2>Suggested slots</h2>
         <div id="slots-list"></div>
         <p id="no-slots" class="no-slots hidden">No available slots found for the given constraints.</p>
+      </div>
+
+      <div id="ask-results" class="results hidden">
+        <h2>Answer</h2>
+        <div id="answer-content" class="slot-card"></div>
+        <p id="answer-sources" class="slot-provider"></p>
       </div>
 
       <div id="error" class="error hidden"></div>

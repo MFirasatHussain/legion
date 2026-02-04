@@ -25,6 +25,8 @@ A local-only demo service that suggests appointment slots using a deterministic 
   - Time zones (zoneinfo)
   - Slot length (default 30m), buffer between appointments (default 10m)
   - Excludes conflicts, respects business hours and preferred days/times
+- **RAG (Ask)** — Ask questions about the scheduler; answers are generated from docs in `data/documents/` (e.g. `scheduler_faq.md`)
+- **Patient Documents RAG** — Upload patient medical records (.txt or .md) and ask questions about them
 
 ## Requirements
 
@@ -71,7 +73,30 @@ make test
 
 ## API Examples
 
-### 1. Free-text availability
+### 1. RAG — Ask a question about the scheduler
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What timezone formats are supported?"}'
+```
+
+### 2. Upload patient documents
+
+```bash
+curl -X POST http://localhost:8000/upload \
+  -F "file=@patient_record.md"
+```
+
+### 3. RAG — Ask a question about patient documents
+
+```bash
+curl -X POST http://localhost:8000/ask_patient \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What medications is the patient taking?"}'
+```
+
+### 4. Free-text availability
 
 ```bash
 curl -X POST http://localhost:8000/suggest \
@@ -79,7 +104,7 @@ curl -X POST http://localhost:8000/suggest \
   -d @data/sample_requests/text_availability.json
 ```
 
-### 2. Structured JSON availability
+### 5. Structured JSON availability
 
 ```bash
 curl -X POST http://localhost:8000/suggest \
@@ -94,19 +119,21 @@ llm-ai-scheduler/
 ├── docs/
 │   ├── ui.png        # Input form screenshot
 │   └── results.png   # Suggested slots screenshot
+├── data/
+│   ├── documents/
+│   │   └── scheduler_faq.md   # Example doc for RAG
+│   ├── patient_docs/          # Uploaded patient documents for RAG
+│   └── sample_requests/
 ├── app/
 │   ├── __init__.py
-│   ├── main.py       # FastAPI app, POST /suggest
+│   ├── main.py       # FastAPI app, POST /suggest, POST /ask
 │   ├── llm.py        # LLMClient (OpenAI-compatible)
+│   ├── rag.py        # RAG: retrieve + generate from docs
 │   ├── schema.py     # Pydantic models
 │   └── scheduler.py  # Deterministic slot computation
 ├── tests/
 │   ├── test_scheduler.py   # Scheduler unit tests
 │   └── test_llm_parsing.py # Mocked LLM parsing tests
-├── data/
-│   └── sample_requests/
-│       ├── text_availability.json
-│       └── structured_availability.json
 ├── requirements.txt
 ├── Makefile
 └── README.md

@@ -67,3 +67,15 @@ def test_health(client):
     resp = client.get("/health")
     assert resp.status_code == 200
     assert resp.json() == {"status": "ok"}
+
+
+@patch("app.main.rag_ask")
+def test_ask_endpoint(MockRagAsk, client):
+    """POST /ask returns answer and sources."""
+    MockRagAsk.return_value = ("Use IANA timezone names.", ["scheduler_faq.md"])
+    resp = client.post("/ask", json={"question": "What timezones?"})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert "answer" in data
+    assert "sources" in data
+    assert "IANA" in data["answer"]
