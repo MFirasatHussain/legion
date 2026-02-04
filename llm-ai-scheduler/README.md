@@ -12,6 +12,14 @@ A local-only demo service that suggests appointment slots using a deterministic 
 
 ![Suggested slots](docs/results.png)
 
+**Patient Documents** — Upload medical records and ask questions about them:
+
+![Patient Documents](docs/patient_docs.png)
+
+**Ask Patient Questions** — Query uploaded patient documents using RAG:
+
+![Ask Patient](docs/ask_patient.png)
+
 ## Features
 
 - **POST /suggest** — Accepts either:
@@ -151,7 +159,9 @@ curl -X POST http://localhost:8000/suggest \
 llm-ai-scheduler/
 ├── docs/
 │   ├── ui.png        # Input form screenshot
-│   └── results.png   # Suggested slots screenshot
+│   ├── results.png   # Suggested slots screenshot
+│   ├── patient_docs.png    # Patient documents upload screenshot
+│   └── ask_patient.png     # Ask patient questions screenshot
 ├── data/
 │   ├── documents/
 │   │   └── scheduler_faq.md   # Example doc for RAG
